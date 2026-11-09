@@ -1,0 +1,16 @@
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Secrets
+.env
+.env.example
+# Reports
+reports/*
+screenshots/*
+
+# IDE
+.vscode/
+.idea/
