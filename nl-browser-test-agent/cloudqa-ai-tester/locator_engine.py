@@ -8,6 +8,7 @@ using DOM metadata and weighted semantic matching.
 
 import re
 from dataclasses import dataclass
+from socket import timeout
 from typing import Any
 
 from selenium.webdriver.remote.webelement import WebElement
@@ -106,15 +107,9 @@ class LocatorEngine:
         "name": {"fullname"},
     }
 
-    def __init__(
-        self,
-        browser,
-        minimum_score: float = 35,
-        ambiguity_margin: float = 8,
-    ):
+    def __init__(self, browser, timeout=15):
         self.browser = browser
-        self.minimum_score = minimum_score
-        self.ambiguity_margin = ambiguity_margin
+        self.timeout = timeout
 
     @property
     def driver(self):

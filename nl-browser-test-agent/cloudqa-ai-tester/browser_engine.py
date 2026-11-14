@@ -92,6 +92,7 @@ class BrowserEngine:
         self.screenshot_dir = Path(screenshot_dir)
         self.screenshot_dir.mkdir(parents=True, exist_ok=True)
 
+   
     # ---------------------------------------------------------
     # BROWSER LIFECYCLE
     # ---------------------------------------------------------
@@ -179,11 +180,9 @@ class BrowserEngine:
             Prevents unnecessary background browser processes.
         """
 
-        if self.driver is not None:
-            try:
-                self.driver.quit()
-            finally:
-                self.driver = None
+        if self.driver:
+            self.driver.quit()
+            self.driver = None
 
     def __enter__(self) -> "BrowserEngine":
         """
@@ -783,6 +782,15 @@ class BrowserEngine:
 
         # Return the complete absolute file path.
         return str(path.resolve())
+    def snapshot(self):
+        if self.driver is None:
+         raise RuntimeError("Browser is not started.")
+
+        return self.driver.execute_script("""
+        return document.body
+            ? document.body.innerText
+            : '';
+    """)
 
     # ---------------------------------------------------------
     # INTERNAL UTILITIES
